@@ -24,16 +24,26 @@ const getRecipe = async (req, res) => {
 }
 // create new recipe
 const createRecipe = async (req, res) => {
-    const {title, difficulty} = req.body
+    const { title, difficulty, category, description, instructions, ingredients, calories, picture } = req.body;
 
-    // add doc to DB
-    try{
-        const recipe = await Recipe.create({title, difficulty})
-        res.status(200).json(recipe)
+    try {
+        // Create a new recipe document based on the Recipe schema
+        const recipe = await Recipe.create({
+            title,
+            difficulty,
+            category,
+            description,
+            instructions,
+            ingredients,
+            calories,
+            picture
+        });
+
+        res.status(201).json(recipe); // Send the created recipe as a response
     } catch (error) {
-        res.status(400).json({error: error.message})
+        res.status(400).json({ error: error.message }); // Handle errors
     }
-}
+};
 
 // delete a recipe
 const deleteRecipe = async (req, res) =>{
