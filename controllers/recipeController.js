@@ -39,8 +39,14 @@ const createRecipe = async (req, res) => {
             picture
         });
 
+        // Log the created recipe object to the console
+        console.log('Created recipe:', recipe);
+
         res.status(201).json(recipe); // Send the created recipe as a response
     } catch (error) {
+        // Log the error
+        console.error('Error creating recipe:', error);
+
         res.status(400).json({ error: error.message }); // Handle errors
     }
 };

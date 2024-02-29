@@ -1,33 +1,16 @@
 const mongoose = require('mongoose');
 
-const Schema = mongoose.Schema;
+const { Schema } = mongoose;
 
-// Define the enum values for difficulty
+// Enum for recipe difficulty levels
 const difficultyEnum = ['Easy', 'Intermediate', 'Hard', 'Chef Level'];
 
 // Enum for recipe categories
-const CategoryLabels = {
-  appetizers: 'Appetizers',
-  starters: 'Starters',
-  mainDish: 'Main Dish',
-  dessert: 'Dessert',
-};
+const categoryEnum = ['Appetizers', 'Starters', 'Main Dish', 'Dessert'];
 
 const recipeSchema = new Schema({
-  picture: {
-    type: String, // Assuming the picture is stored as a URL
-    required: true,
-  },
   title: {
     type: String,
-    required: true,
-  },
-  description: {
-    type: String,
-    required: true,
-  },
-  instructions: {
-    type: [String],
     required: true,
   },
   difficulty: {
@@ -37,7 +20,15 @@ const recipeSchema = new Schema({
   },
   category: {
     type: String,
-    enum: Object.values(CategoryLabels),
+    enum: categoryEnum,
+    required: true,
+  },
+  description: {
+    type: String,
+    required: true,
+  },
+  instructions: {
+    type: [String],
     required: true,
   },
   ingredients: [
@@ -70,6 +61,12 @@ const recipeSchema = new Schema({
       required: true,
     },
   },
+  picture: {
+    type: String,
+    required: true,
+  }
 }, { timestamps: true });
 
-module.exports = mongoose.model('Recipe', recipeSchema);
+const Recipe = mongoose.model('Recipe', recipeSchema);
+
+module.exports = Recipe;
