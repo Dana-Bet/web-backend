@@ -1,5 +1,6 @@
 const Recipe = require('../models/RecipesModel')
 const mongoose = require('mongoose')
+
 // get all recipes
 const getRecipes = async (req, res) => {
     const recipes = await Recipe.find({}).sort({createdAt: -1})

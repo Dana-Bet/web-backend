@@ -3,10 +3,10 @@ const { createUser, getUser } = require("../controllers/userController");
 
 const router = express.Router();
 
-//Get all recipes
-router.get("/", getUser);
+// Get all users
+router.post("/login", getUser);
 
-//Post a new recipe
+// Creates new user
 router.post("/", createUser);
 
 module.exports = router;
