@@ -8,25 +8,27 @@ const getUser = async (req, res) => {
     const { username, password } = req.body;
 
     // Find user by username
-    // Assuming you have a mechanism to compare hashed passwords,
-    // For simplicity, this example just checks if a user with the given username exists.
     const user = await User.findOne({ username: username });
 
     if (user) {
-      // Here you should compare the provided password with the stored hash.
-      // This example assumes the authentication is successful.
-      
-      // Generate JWT Token
-      const accessToken = jwt.sign(
-        { userId: user._id, username: user.username },
-        process.env.ACCESS_TOKEN_SECRET,
-        { expiresIn: '24h' } // Token expires in 24 hours
-      );
-
-      res.json({ message: "Login successful", accessToken: accessToken });
+      // Compare the provided password with the stored hash
+      const isMatch = await user.comparePassword(password);
+      if (isMatch) {
+        // Generate JWT Token
+        const accessToken = jwt.sign(
+          { userId: user._id, username: user.username },
+          process.env.ACCESS_TOKEN_SECRET,
+          { expiresIn: '24h' } // Token expires in 24 hours
+        );
+    
+        res.json({ message: "Login successful", accessToken: accessToken });
+      } else {
+        // Password does not match
+        res.status(401).json({ message: "Login failed. Password incorrect." });
+      }
     } else {
-      // User not found or password does not match
-      res.status(401).json({ message: "Login failed. User not found or password incorrect." });
+      // User not found
+      res.status(401).json({ message: "Login failed. User not found." });
     }
   } catch (error) {
     console.log("Server error during login:", error);
