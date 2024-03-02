@@ -4,7 +4,7 @@ const { createUser, getUser } = require("../controllers/userController");
 const router = express.Router();
 
 //Get all recipes
-router.get("/", getUser);
+router.post("/login", getUser);
 
 //Post a new recipe
 router.post("/", createUser);
