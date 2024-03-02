@@ -5,7 +5,7 @@ const {
     createRecipe,
     deleteRecipe,
     updateRecipe,
-} =require('../controllers/recipeController')
+} = require('../controllers/recipeController')
 
 const router = express.Router()
 

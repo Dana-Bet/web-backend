@@ -4,6 +4,7 @@ const express = require('express');
 const mongoose = require('mongoose'); // Import the database
 const cors = require('cors'); // Require the CORS package
 const recipeRoutes = require('./routes/recipes');
+const userRoutes = require("./routes/users");
 
 // Express app
 const app = express();
@@ -17,7 +18,8 @@ app.use((req, res, next) => {
 });
 
 // Register view engine
-app.use('/api/recipes', recipeRoutes);
+app.use("/users", userRoutes);
+app.use('/recipes', recipeRoutes);
 
 // Connect to MongoDB & listen for requests
 mongoose.connect(process.env.MONGO_URI)
@@ -28,4 +30,4 @@ mongoose.connect(process.env.MONGO_URI)
             console.log(`Connected to DB & listening on port ${PORT}`);
         });
     })
-    .catch(err => console.log(err));
+    .catch(err => console.log("Error:", err));
