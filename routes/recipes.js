@@ -12,8 +12,9 @@ const router = express.Router()
 //Get all recipes
 router.get('/', getRecipes)
 
-//Get single recipe
-router.get('/:id', getRecipe)
+// Express route with a custom path
+router.get('/findone/:id', getRecipe);
+
 
 //Post a new recipe
 router.post('/',createRecipe)
