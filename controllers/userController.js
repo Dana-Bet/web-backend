@@ -1,34 +1,32 @@
 const User = require("../models/UserModel");
-const jwt = require('jsonwebtoken');
+// const jwt = require('jsonwebtoken');
 
 
 const getUser = async (req, res) => {
   try {
-    // Extract username and password from request body
     const { username, password } = req.body;
-
-    // Find user by username
-    const user = await User.findOne({ username: username });
+    const user = await User.findOne({username: username});
+    console.log("Username:", username);
+    console.log("Password:", password);
 
     if (user) {
-      // Compare the provided password with the stored hash
       const isMatch = await user.comparePassword(password);
       if (isMatch) {
         // Generate JWT Token
-        const accessToken = jwt.sign(
-          { userId: user._id, username: user.username },
-          process.env.ACCESS_TOKEN_SECRET,
-          { expiresIn: '24h' } // Token expires in 24 hours
-        );
-    
-        res.json({ message: "Login successful", accessToken: accessToken });
+        // const accessToken = jwt.sign(
+        //   { userId: user._id, username: user.username },
+        //   process.env.ACCESS_TOKEN_SECRET,
+        //   { expiresIn: '3h' } // Token expires in 24 hours
+        // );
+        console.log(user);
+        res.status(200).json(user.name);
       } else {
         // Password does not match
-        res.status(401).json({ message: "Login failed. Password incorrect." });
+        res.status(400).json({ message: "Login failed. Password incorrect." });
       }
     } else {
       // User not found
-      res.status(401).json({ message: "Login failed. User not found." });
+      res.status(400).json({ message: "Login failed. User not found." });
     }
   } catch (error) {
     console.log("Server error during login:", error);
@@ -41,10 +39,10 @@ const createUser = async (req, res) => {
     // Assuming password hashing is done within your User model's pre-save middleware
     const user = await User.create(req.body);
     console.log(`User created: ${req.body.username}`);
-    res.status(201).json(user);
+    res.status(200).json(user);
   } catch (error) {
     console.log("Failed to create user:", error);
-    res.status(400).json({ error: error.message });
+    res.status(500).json({ error: error.message });
   }
 };
 
