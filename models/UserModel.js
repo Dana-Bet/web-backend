@@ -18,27 +18,36 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  favoriteRecipes: [{
-    type: Schema.Types.ObjectId,
-    ref: 'Recipe'
-  }],
-  sharedRecipes: [{
-    type: Schema.Types.ObjectId,
-    ref: 'Recipe'
-  }],
-  customMealPlans: [{
-    type: Schema.Types.ObjectId,
-    ref: 'MealPlan'
-  }],
-  shoppingLists: [{
-    type: Schema.Types.ObjectId,
-    ref: 'ShoppingList'
-  }]
+  favoriteRecipes: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Recipe",
+    },
+  ],
+  sharedRecipes: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Recipe",
+    },
+  ],
+  customMealPlans: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "MealPlan",
+    },
+  ],
+  shoppingLists: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "ShoppingList",
+    },
+  ],
+  profileImg: String,
 });
 
 // Pre-save hook to hash password before saving a new user
-userSchema.pre('save', async function (next) {
-  if (!this.isModified('password')) return next();
+userSchema.pre("save", async function (next) {
+  if (!this.isModified("password")) return next();
 
   try {
     const salt = await bcrypt.genSalt(10);
